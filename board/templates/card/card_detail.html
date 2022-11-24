@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>{{ board.title }}</h1>
+<div class="row">
+    <div class="col-md-8">
+    </div>
+    <div class="col-md-4">
+        <td style="background: url('{{board.background.url}} no-repeat'"></td>
+        <h5>Card:</h5>
+        <p>{{ card.description }}</p>
+        <br>
+        <h5>Members:</h5>
+        {% for member in card.members.all %}
+        <p>{{ member }}</p
+        {% endfor %}>
+        <h5>Mark:</h5>
+        <p>{{ card.mark }}</p>
+        <h5>Due date:</h5>
+        <p>{{ card.due_date }}</p>
+    </div>
+    <h3>Comments:</h3>
+    {% for comment in comments %}
+    <p>
+        On {{comment.created_on }}&nbsp;
+        <b>{{ comment.author }}</b> wrote:
+    </p>
+    <p>{{ comment.text }}</p>
+    <hr>
+    {% endfor %}
+</div>
+
+<a href="{% url 'card_create' %}">Create Card</a>
+<a href="{% url 'card_update' card.id %}">Update Card</a>
+<a href="{% url 'card_delete' card.id %}">Delete Card</a>
+{% endblock %}

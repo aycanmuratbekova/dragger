@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style_content %}
+    <link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+    <script src="{% static 'js/moving/dnd.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-items.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-columns.js' %}" ></script>
+{% endblock %}
+{% block content %}{% endblock %}
+
+{% block page_content %}
+{% if not archived_desks %}
+         <h2>Archived Desks</h2>
+          <h5>У Вас пока нет архивированных досок</h5><br/><br/>
+{% else %}
+            <h2>Archived Desks</h2>
+
+      {% for desk in archived_desks %}
+        <div class="board-column-content-wrapper">
+          <div class="board-item item1" draggable>
+            <div class="board-item-content">{{desk.to_desk}}</div>
+          </div>
+          <div class="buttons">
+                <a type="button" class="btn btn-danger" href="{% url 'delete_desk' desk.to_desk.id %}">Удалить</a>
+                <a type="button" class="btn btn-info" href="{% url 'desk_detail' desk.to_desk.id %}">Открыть Доску</a>
+
+              {% if desk in archived_desks %}
+                <a class="btn btn-light"  href="{% url 'de_archive_desk' desk.to_desk.id %}">Разархивировать</a>
+              {% else %}
+                <a type="button" class="btn btn-info" href="{% url 'archive_desk' desk.to_desk.id %}">Архивировать</a>
+              {% endif %}
+
+              {% if desk in favorite_desks %}
+                  <a href="/trello/dislike-desk/{{desk.to_desk.id}}/" type="button" class="btn btn-info">&#10084;</a>
+              {% else %}
+                  <a href="/trello/like-desk/{{desk.to_desk.id}}/"  type="button" class="btn btn-info">&#9829;</a>
+              {% endif %}
+
+          </div>
+            <br>
+          {% endfor %} {% endif %}
+
+          <h2>Create New Desks</h2>
+    <form action="/trello/desk-list/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            {{ form.image }}
+        </div>
+        <button type="submit" class="btn btn-info">Cоздать Доску</button>
+    </form>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

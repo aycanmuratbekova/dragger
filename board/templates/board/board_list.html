@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h1>Boards</h1>
+<div class="row">
+{% for board in boards %}
+    <div class="col-md-4" style="background-image: url 'background_image'">
+        <div class="card mb-2">
+            <img class="card-img-top" src="{{board.background.url}}">
+            <div class="card-body">
+                <h5 class="card-title">{{ board.title }}</h5>
+                <p class="card-text">{{ board.owner }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

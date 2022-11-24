@@ -85,6 +85,8 @@ LOCAL_APPS = [
     # Your stuff: custom apps go here
     "blog",
     "projects",
+    "moving",
+    "desk",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -155,7 +157,11 @@ STATIC_ROOT = os.path.join(APPS_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(APPS_DIR / "static/")]
+# STATICFILES_DIRS = [str(APPS_DIR / "static/")]
+STATICFILES_DIRS = [
+    os.path.join(APPS_DIR, 'static'),
+]
+
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -166,6 +172,7 @@ STATICFILES_FINDERS = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
 MEDIA_ROOT = str(APPS_DIR / "media")
+# MEDIA_ROOT = os.path.join(APPS_DIR, 'media'),
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
 
@@ -315,9 +322,17 @@ SPECTACULAR_SETTINGS = {
 LOGIN_REDIRECT_URL = "dashboard"
 LOGOUT_REDIRECT_URL = "dashboard"
 
-EMAIL_HOST = "smtp.mailgun.org"
+# EMAIL_HOST = "smtp.mailgun.org"
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
+
+
+EMAIL_HOST = "smtp.gmail.com"
+
+
+# EMAIL_HOST_USER = "testemail@gmail.com"
+#
+# EMAIL_HOST_PASSWORD = "mypassword"
 

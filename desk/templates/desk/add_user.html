@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style_content %}
+<link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+<script src="{% static 'js/moving/dnd.js' %}"></script>
+<script src="{% static 'js/moving/dnd-items.js' %}"></script>
+<script src="{% static 'js/moving/dnd-columns.js' %}"></script>
+{% endblock %}
+{% block content %}{% endblock %}
+
+{% block page_content %}
+<body style="background-image: url('{{ desk.image.url }}');">
+<br/>
+<h6>Создатель доски:   {{desk.creator}}</h6>
+
+{% if guest_users %}
+<h7>Участники:</h7>
+{% for guest in guest_users %}
+{{guest}},
+{% endfor %}
+{% endif %}<br/>
+
+<a href="/trello/desk/{{desk.id}}/" type="submit" class="btn btn-info">Вернутся</a><br/><br/>
+
+
+<br/>
+<h5>Добавить участника:</h5><br/>
+
+{% for user in users %}
+
+  {% if  user not in guest_users %}
+  <a href="/trello/add-this-user/{{user.id}}/{{desk.id}}/" type="submit" class="btn btn-info">Добавить:  {{user}}</a><br/><br/>
+  {% else %}
+  <a href="/trello/remove-this-user/{{user.id}}/{{desk.id}}/" type="submit" class="btn btn-danger">Удалить:   {{user}}</a><br/><br/>
+
+  {% endif %}
+{% endfor %}
+
+
+</body>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

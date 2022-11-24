@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style_content %}
+    <link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+    <script src="{% static 'js/moving/dnd.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-items.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-columns.js' %}" ></script>
+{% endblock %}
+
+{% block page_content %}
+{% if not last_visited_desks %}
+         <h2>Last Visited Desks</h2>
+          <h5>У Вас пока нет посещенных досок</h5><br/><br/>
+{% else %}
+            <h2>Last Visited Desks</h2>
+
+      {% for visited in last_visited_desks %}
+        <div class="board-column-content-wrapper">
+          <div class="board-item item1" draggable>
+            <div class="board-item-content">{{visited.to_desk}}</div><h7>{{visited.last_visit}}</h7>
+          </div><br/><br/>
+          <div class="buttons">
+              <a type="button" class="btn btn-info" href="{% url 'desk_detail' visited.to_desk.id %}">Открыть Доску</a>
+              <a type="button" class="btn btn-info" href="{% url 'desk_list' %}">На главную</a>
+      {% endfor %}
+{% endif %}
+
+
+{% endblock %}
+
+{% block content %}{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

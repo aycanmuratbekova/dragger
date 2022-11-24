@@ -1,8 +1,11 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
+    {% block style_content %}{% endblock %}
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'project_index' %}">RP Portfolio</a>
+        <a class="navbar-brand" href="{% url 'dashboard' %}">Trello</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,13 +13,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'project_index' %}">Home</a>
+              <a class="nav-link" href="{% url 'desk_list' %}">My Desks</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'blog_index' %}">Blog</a>
+              <a class="nav-link" href="{% url 'favorite_desks' %}">Favorite</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+              <a class="nav-link" href="{% url 'archived_desks' %}">Archive</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'last_visited' %}">Last Visited</a>
             </li>
           </ul>
         </div>
@@ -25,8 +31,20 @@
 </nav>
 
 <div class="container">
-    {% block page_content %}{% endblock %}
-    {% block content %}{% endblock %}
+    {% block page_content %}
+    {% endblock %}
+    {% block content %}
+
+      {% if user.is_authenticated %}
+        <p><a href="{% url 'logout' %}" type="button" class="btn btn-info">Logout</a></p>
+        <p><a href="{% url 'password_change' %}" type="button" class="btn btn-info">Change password</a></p>
+    {% else %}
+        <p><a href="{% url 'login' %}" type="button" class="btn btn-info">Login</a></p>
+        <p><a href="{% url 'password_reset' %}" type="button" class="btn btn-info">Reset Password</a></p>
+        <p><a href="{% url 'register' %}" type="button" class="btn btn-info">Register</a></p>
+
+    {% endif %}
+    {% endblock %}
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

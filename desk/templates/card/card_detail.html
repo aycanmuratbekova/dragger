@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style_content %}
+    <link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+    <script src="{% static 'js/moving/dnd.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-items.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-columns.js' %}" ></script>
+{% endblock %}
+
+{% block content %}{% endblock %}
+{% block page_content %}
+  <body style="background-image: url('{{ desk.image.url }}');">
+  <br/>
+
+    <div class="board">
+
+      <div>
+        <br/>
+        <h6>Название</h6>
+        <div class="column">{{card.name}}</div>
+        <br/>
+        <h6>Описание</h6>
+        <div class="column">{{card.description}}</div>
+        <br/>
+        <h6>Дедлайн</h6>
+       {{card.deadline}}
+      </div><br/>
+
+    </div>
+  <br/>
+        <a href="/trello/desk/{{desk.id}}/" type="submit" class="btn btn-info">Вернутся</a>
+        <a href="/trello/delete-card/{{card.id}}/" type="submit" class="btn btn-danger">Удалить</a>
+        <a href="/trello/change-card/{{card.id}}/" type="submit" class="btn btn-info">Изменить</a>
+    <br/><br/><br/>
+    <h6>Оставить комментарий:</h6>
+    <form action="/trello/card-detail/{{ card.id }}/" method="post">
+        {% csrf_token %}
+        <div class="column">
+            {{ form.body }}
+        </div>
+        <button type="submit" class="btn btn-info">Отправить</button>
+    </form>
+    <h3>Comments:</h3>
+    {% for comment in comments %}
+    <p>
+        On {{comment.created_on.date }}&nbsp;
+        <b>{{ comment.author }}</b> wrote:
+    </p>
+    <p>{{ comment.body }}</p>
+    <hr>
+    {% endfor %}
+</div></body>
+{% endblock %}

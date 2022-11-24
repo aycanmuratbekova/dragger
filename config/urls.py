@@ -9,18 +9,15 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
-    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    # path(
-    #     "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
-    # ),
-    # Django Admin, use {% url 'admin:index' %}
+    path("", TemplateView.as_view(template_name="base.html"), name="home"),
     path(settings.ADMIN_URL, admin.site.urls),
-    # User management
-    path('', include('accounts.urls')),
-    # path("users/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+    path('accounts/', include('accounts.urls')),
     path("projects/", include("projects.urls")),
     path("blog/", include("blog.urls")),
+    path("moving/", include("moving.urls")),
+    path("trello/", include("desk.urls")),
+    path("board/", include("board.urls")),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
@@ -28,16 +25,16 @@ if settings.DEBUG:
 
 # API URLS
 urlpatterns += [
-    # API base url
-    path("api/", include("config.api_router")),
-    # DRF auth token
-    path("auth-token/", obtain_auth_token),
-    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
-    path(
-        "api/docs/",
-        SpectacularSwaggerView.as_view(url_name="api-schema"),
-        name="api-docs",
-    ),
+    # # API base url
+    # path("api/", include("config.api_router")),
+    # # DRF auth token
+    # path("auth-token/", obtain_auth_token),
+    # path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
+    # path(
+    #     "api/docs/",
+    #     SpectacularSwaggerView.as_view(url_name="api-schema"),
+    #     name="api-docs",
+    # ),
 ]
 
 if settings.DEBUG:

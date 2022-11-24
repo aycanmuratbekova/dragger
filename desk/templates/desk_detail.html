@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style_content %}
+<link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+<script src="{% static 'js/moving/dnd.js' %}"></script>
+<script src="{% static 'js/moving/dnd-columns.js' %}"></script>
+{% endblock %}
+{% block content %}{% endblock %}
+
+{% block page_content %}
+<body style="background-image: url('{{ desk.image.url }}');"><br/><br/>
+
+{% if desk_guests %}
+<h7>Участники: </h7>
+{% for guest in desk_guests %}
+{{guest.guest_user}},
+{% endfor %}
+{% endif %}
+
+
+<br/><br/>
+<a href="/trello/add-user/{{desk.id}}/" type="submit" class="btn btn-info" >Добавить Участника</a>
+<br/><br/>
+<form action="/trello/create-column/{{desk.id}}/" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form_column.name }}
+  </div>
+  <button type="submit" class="btn btn-info">Добавить Колонку</button>
+</form>
+<br/>
+
+
+{% for column in columns %}
+<div class="board">
+
+  <div class="column" data-column-id="{{ column.id }}">
+    <div class="board-column-header" draggable id="{{card.id}}" ondblclick="myFunction(id)">{{column.name}}</div>
+    <a href="/trello/change-column-name/{{column.id}}/" type="submit" class="btn btn-info">Изменить</a>
+    <a href="/trello/delete-column/{{column.id}}/" type="submit" class="btn btn-danger">Удалить</a><br/>
+    {% for card in column.cards.all %}
+    <div class="board-column-content-wrapper">
+      <div>
+        <div class="board-item item1" draggable>
+          <a href="/trello/card-detail/{{ card.id }}/">
+          <div class="board-item-content" data-card-id="{{ card.id }}"> {{card.name}}</div></a>
+        </div>
+      </div>
+      {% endfor %}
+      <br/><br/>
+
+      <p>Добавить карточку</p>
+      <form action="/trello/create-card/{{column.id}}/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form_card.name }}
+        </div>
+        <div class="column">
+          {{ form_card.description }}
+        </div>
+        <div class="column">
+          {{ form_card.deadline }}
+        </div>
+        <button type="submit" class="btn btn-info">Cоздать Карточку</button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+<br/>
+{% endfor %}
+
+
+<script>
+function myFunction(id) {
+  document.getElementById("demo").innerHTML = id;
+}
+
+
+</script>
+
+</body>
+
+{% endblock %}
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<button ondblclick="myFunction('Ariet')">Double-click me</button>
+
+<p id="demo2"></p>
+
+<p>A function is triggered when the button is double-clicked. The function outputs some text in a p element with
+  id="demo".</p>
+
+<script>
+function myFunction(id) {
+  document.getElementById("demo2").innerHTML = id;
+}
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

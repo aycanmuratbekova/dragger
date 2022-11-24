@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style_content %}
+    <link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+    <script src="{% static 'js/moving/dnd.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-items.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-columns.js' %}" ></script>
+{% endblock %}
+{% block content %}{% endblock %}
+
+{% block page_content %}
+
+        {% if desks %}
+            <h2>My Desks</h2>
+          {% endif %}
+
+      {% for desk in desks %}
+      {% if desk not in archived_desks %}
+
+        <div class="board-column-content-wrapper">
+          <div class="board-item item1" draggable>
+            <div class="board-item-content">{{desk.name}}</div>
+          </div>
+          <div class="buttons">
+                <a type="button" class="btn btn-danger" href="{% url 'delete_desk' desk.id %}">Удалить</a>
+                <a type="button" class="btn btn-info" href="{% url 'desk_detail' desk.id %}">Открыть Доску</a>
+
+              {% if desk in archived_desks %}
+                  <a class="btn btn-light"  href="{% url 'de_archive_desk' desk.id %}">Разархивировать</a>
+              {% else %}
+                  <a type="button" class="btn btn-info" href="{% url 'archive_desk' desk.id %}">Архивировать</a>
+              {% endif %}
+
+              {% if desk in favorite_desks %}
+                  <a href="/trello/dislike-desk/{{desk.id}}/" type="button" class="btn btn-info">&#10084;</a>
+              {% else %}
+                  <a href="/trello/like-desk/{{desk.id}}/"  type="button" class="btn btn-info">&#9829;</a>
+              {% endif %}
+
+          </div>
+            <br>
+          {% endif %}
+          {% endfor %}
+
+
+
+          {% if guest_desks %}
+            <h2>Guest Desks</h2>
+          {% endif %}
+          {% for desk in guest_desks %}
+           {% if desk not in archived_desks %}
+        <div class="board-column-content-wrapper">
+          <div class="board-item item1" draggable>
+            <div class="board-item-content">{{desk.to_desk.name}}</div>
+          </div>
+          <div class="buttons">
+                <a type="button" class="btn btn-danger" href="{% url 'delete_desk' desk.id %}">Удалить</a>
+                <a type="button" class="btn btn-info" href="{% url 'desk_detail' desk.id %}">Открыть Доску</a>
+          </div>
+            <br>
+            {% endif %}
+          {% endfor %}
+
+
+          <h2>Create New Desks</h2>
+    <form action="/trello/desk-list/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            {{ form.image }}
+        </div>
+        <button type="submit" class="btn btn-info">Cоздать Доску</button>
+    </form>
+
+
+
+          {% if archived_desks %}
+            <h2>Archived Desks</h2>
+          {% endif %}
+          {% for desk in archived_desks %}
+        <div class="board-column-content-wrapper">
+          <div class="board-item item1" draggable>
+            <div class="board-item-content">{{desk.name}}</div>
+          </div>
+          <div class="buttons">
+                <a type="button" class="btn btn-danger" href="{% url 'delete_desk' desk.id %}">Удалить</a>
+                <a type="button" class="btn btn-info" href="{% url 'desk_detail' desk.id %}">Открыть Доску</a>
+          </div>
+            <br>
+
+              {% if desk in archived_desks %}
+                  <a class="btn btn-light"  href="{% url 'de_archive_desk' desk.id %}">Разархивировать</a>
+              {% else %}
+                  <a type="button" class="btn btn-info" href="{% url 'archive_desk' desk.id %}">Архивировать</a>
+              {% endif %}
+
+              {% if desk in favorite_desks %}
+                  <a href="/trello/dislike-desk/{{desk.id}}/" type="button" class="btn btn-info">&#10084;</a>
+              {% else %}
+                  <a href="/trello/like-desk/{{desk.id}}/"  type="button" class="btn btn-info">&#9829;</a>
+              {% endif %}
+
+
+          {% endfor %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

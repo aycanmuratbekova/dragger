@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style_content %}
+    <link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+    <script src="{% static 'js/moving/dnd.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-items.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-columns.js' %}" ></script>
+{% endblock %}
+
+{% block page_content %}
+  <body style="background-image: url('{{ desk.image.url }}');">
+  <br/>
+  <div class="column {{column.id}}">
+    <form action="/trello/edit-column/{{column.id}}/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form_column.name }}
+        </div>
+        <button type="submit" class="btn btn-info"> Изменить Название </button>
+    </form>
+     <a href="{% url 'desk_detail' desk.id %}" type="submit" class="btn btn-danger">Отмена</a>
+  </div>
+{% endblock %}
+  {% block content %}{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

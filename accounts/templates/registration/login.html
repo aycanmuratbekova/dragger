@@ -11,7 +11,7 @@
     <input type="submit" value="Login">
 </form>
 
-<p><a href="{% url 'dashboard' %}">Back to dashboard</a></p>
-<p><a href="{% url 'password_reset' %}">Reset password</a></p>
-<p><a href="{% url 'register' %}">Register</a></p>
+<p><a href="{% url 'dashboard' %}" type="button" class="btn btn-info">Back to dashboard</a></p>
+<p><a href="{% url 'password_reset' %}" type="button" class="btn btn-info">Reset password</a></p>
+<p><a href="{% url 'register' %}" type="button" class="btn btn-info">Register</a></p>
 {% endblock %}

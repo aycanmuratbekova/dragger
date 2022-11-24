@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style_content %}
+    <link rel="stylesheet" href="{% static 'css/moving/style.css' %}">
+    <script src="{% static 'js/moving/dnd.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-items.js' %}" ></script>
+    <script src="{% static 'js/moving/dnd-columns.js' %}" ></script>
+{% endblock %}
+
+{% block page_content %}
+  <body style="background-image: url('{% static 'images/moving/bg.jpeg' %}');">
+  {% for key, value in data.items %}
+    <div class="board">
+
+      <div class="column {{key}}{{value}}">
+        <div class="board-column-header" draggable id="{{key}}" ondblclick="myFunction(id)">{{key}}</div>
+
+
+        <div class="board-column-content-wrapper">
+          {% for job in value %}
+          <div class="board-item item1" draggable>
+            <div class="board-item-content">{{job}}</div>
+          </div>
+          {% endfor %}
+          {% if forloop.first  %}
+
+          <div class="form">
+                    <textarea class="textarea" placeholder="Введите название для этой карточки"></textarea>
+
+                    <div class="buttons">
+                      <button type="button" class="btn btn-danger">Отмена</button>
+                      <button type="button" class="btn btn-info">Добавить</button>
+                    </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  <br>
+  {% endfor %}
+
+
+  <p id="demo"></p>
+
+
+
+<div class="dropdown">
+  <button class="dropbtn">&#8286;</button>
+  <div class="dropdown-content">
+    <a href="#">Удалить</a>
+    <a href="#">Изменить</a>
+  </div>
+</div>
+
+
+
+
+  <script>
+function myFunction(id) {
+  document.getElementById("demo").innerHTML = id;
+
+}
+</script>
+
+  </body>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .background-image {
+        background-image:url("{% static 'images/moving/bg.jpeg' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100vh;
+    }
+</style>
+
+{% endblock %}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<button ondblclick="myFunction('Ariet')">Double-click me</button>
+
+<p id="demo2"></p>
+
+<p>A function is triggered when the button is double-clicked. The function outputs some text in a p element with id="demo".</p>
+
+<script>
+function myFunction(id) {
+  document.getElementById("demo2").innerHTML = id;
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
